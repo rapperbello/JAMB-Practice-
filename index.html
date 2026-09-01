@@ -403,7 +403,8 @@ function goHome(){
   hide("subjectsPage");hide("quiz");hide("result");show("home");
   document.querySelectorAll(".subjectCheck").forEach(x=>x.checked=false);
   document.getElementById("studentName").value="";
-  selectedSubjects=[];
+  selectedSubjects=[];  
+}
   function payForPremium(plan, amount) {
   let userEmail = prompt("Shigar da Email dinka domin ci gaba:");
   if (!userEmail) return;
