@@ -397,20 +397,20 @@ function finishExam(){
 function restartExam(){
   hide("result");show("quiz");currentSubjectIndex=0;subjectScores={};loadSubject();
 }
-
 function goHome(){
   clearInterval(timer);
-  hide("subjectsPage");hide("quiz");hide("result");show("home");
-  document.querySelectorAll(".subjectCheck").forEach(x=>x.checked=false);
-  document.getElementById("studentName").value="";
-  selectedSubjects=[];  
+  hide("subjectsPage"); hide("quiz"); hide("resultPage");
+  document.querySelectorAll(".subjectCheck").forEach(cb => cb.checked = false);
+  document.getElementById("studentName").value = "";
+  selectedSubjects = [];
 }
-  function payForPremium(plan, amount) {
-  let userEmail = prompt("Shigar da Email dinka domin ci gaba:");
+
+function payForPremium(plan, amount) {
+  let userEmail = prompt("Shigar da Email dinka don biyan kudi:");
   if (!userEmail) return;
 
   let handler = PaystackPop.setup({
-    key: 'pk_test_0ba0b8b67cc4950baffb4ecae70675d8f1d26d2c', // 
+    key: 'pk_test_0ba0b8b67cc4950baffb4ecae70675c...', // saka cikakken key dinka a nan
     email: userEmail,
     amount: amount * 100,
     currency: 'NGN',
@@ -424,12 +424,11 @@ function goHome(){
       alert('Ba ka kammala biyan kudin ba.');
     }
   });
-
   handler.openIframe();
 }
 
 function checkPremiumStatus() {
-  let isPremium = localStorage.getItem('isPremium') === 'true';
+  let isPremium = localStorage.getItem('isPremium');
   if (isPremium) {
     console.log("Premium User!");
   }
@@ -437,7 +436,6 @@ function checkPremiumStatus() {
 
 checkPremiumStatus();
 
-}
 </script>
 </body>
   </html>
