@@ -66,19 +66,6 @@ body {
 </head>
 <body>
 
-}
-
-.container {
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 20px;
-    box-sizzing: border-box;
-}
-</style>
-</head>
-<body>
- 
 <div id="home" class="page">
 <h1>JAMB Practice</h1>
 <p class="small">Practice smarter. Prepare better. 🎯</p>
@@ -104,9 +91,9 @@ body {
 <h3>⭐ Premium Practice</h3>
 <p>Premium can include unlimited practice, full CBT mocks, detailed performance and no ads.</p>
 <div class="price-row">
-<button onclick="showPremiumPlan('7 days','₦500')">₦500 / 7 days</button>
-<button onclick="showPremiumPlan('30 days','₦1,000')">₦1,000 / 30 days</button>
-<button onclick="showPremiumPlan('3 months','₦2,500')">₦2,500 / 3 months</button>
+<button onclick="payForPremium('7days', 500)">₦500 / 7 days</button>
+<button onclick="payForPremium('30days', 1000)">₦1,000 / 30 days</button>
+<button onclick="payForPremium('3months', 2500)">₦2,500 / 3 months</button>
 </div>
 <p id="premiumNote" class="small"></p>
 </div>
@@ -417,6 +404,38 @@ function goHome(){
   document.querySelectorAll(".subjectCheck").forEach(x=>x.checked=false);
   document.getElementById("studentName").value="";
   selectedSubjects=[];
+  function payForPremium(plan, amount) {
+  let userEmail = prompt("Shigar da Email dinka domin ci gaba:");
+  if (!userEmail) return;
+
+  let handler = PaystackPop.setup({
+    key: 'pk_test_XXXXXXXXXXXXXXXXXXXXXXXX', // Saka Key dinka a nan
+    email: userEmail,
+    amount: amount * 100,
+    currency: 'NGN',
+    callback: function(response) {
+      alert('An kammala biyan kudi! Ref: ' + response.reference);
+      localStorage.setItem('isPremium', 'true');
+      localStorage.setItem('premiumPlan', plan);
+      location.reload();
+    },
+    onClose: function() {
+      alert('Ba ka kammala biyan kudin ba.');
+    }
+  });
+
+  handler.openIframe();
+}
+
+function checkPremiumStatus() {
+  let isPremium = localStorage.getItem('isPremium') === 'true';
+  if (isPremium) {
+    console.log("Premium User!");
+  }
+}
+
+checkPremiumStatus();
+
 }
 </script>
 </body>
