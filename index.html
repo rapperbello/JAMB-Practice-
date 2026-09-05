@@ -105,16 +105,54 @@ button:disabled{opacity:.55;cursor:not-allowed;transform:none}
     <div class="card feature"><b>📖 Explanations</b><br><span class="note">Learn why an answer is correct. 3 free explanation views.</span></div>
   </div>
 
-  <div class="card center">
-    <h3>⭐ Premium Practice</h3>
-    <p>Unlimited explanation access, more practice and future premium tools can be connected to a secure payment system.</p>
-    <div class="plan-row">
-      <button class="gold" onclick="showPremium()">₦500 / 7 days</button>
-      <button class="gold" onclick="showPremium()">₦1,000 / 30 days</button>
-      <button class="gold" onclick="showPremium()">₦2,500 / 3 months</button>
-    </div>
+  <div class="pricing-card">
+  <h3>JAMB Practice Premium</h3>
+  <p class="pricing-sub">Get full access to all questions, mock exams, and explanations.</p>
+
+  <table class="pricing-table">
+    <thead>
+      <tr>
+        <th>Features</th>
+        <th>Free</th>
+        <th>Premium</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Practice Questions</td>
+        <td>✓</td>
+        <td>✓</td>
+      </tr>
+      <tr>
+        <td>Full CBT Mocks</td>
+        <td>—</td>
+        <td>✓</td>
+      </tr>
+      <tr>
+        <td>Detailed Explanations</td>
+        <td>—</td>
+        <td>✓</td>
+      </tr>
+      <tr>
+        <td>Performance Tracking</td>
+        <td>—</td>
+        <td>✓</td>
+      </tr>
+      <tr>
+        <td>Remove Ads</td>
+        <td>—</td>
+        <td>✓</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="btn-group">
+    <button class="upgrade-btn" onclick="payWithPaystack(700)">₦700 / 1 Week</button>
+    <button class="upgrade-btn" onclick="payWithPaystack(1700)">₦1,700 / 1 Month</button>
+    <button class="upgrade-btn" onclick="payWithPaystack(2500)">₦2,500 / 2 Months</button>
   </div>
-  <p class="creator">JAMB Practice • Created by Abdurrahman</p>
+  
+  <p class="pricing-footer">Select a plan above to pay via Paystack.</p>
 </div>
 
 <div id="subjectsPage" class="page hidden">
@@ -398,17 +436,29 @@ function goHome(){
   clearInterval(timer);examStarted=false;
   hide("subjectsPage");hide("quiz");hide("result");show("home");
 }
-function showPremium(){
-  show("premiumModal");
-  byId("premiumMessage").textContent="";
+function payWithPaystack(amountInNaira) {
+    let userEmail = prompt("Enter your email address to receive receipt:");
+    if (!userEmail) {
+        alert("Email address is required to proceed.");
+        return;
+    }
+
+    let popup = new PaystackPop();
+    popup.newTransaction({
+        key: 'pk_test_0ba0b8b67cc4950baffb4ecae70675d8f1d26d2c', // Saka Public Key dinka na Paystack a nan
+        email: userEmail,
+        amount: amountInNaira * 100,
+        currency: 'NGN',
+        onSuccess: function(response) {
+            alert('Payment successful! Reference ID: ' + response.reference);
+            localStorage.setItem('isPremiumUser', 'true');
+            location.reload();
+        },
+        onCancel: function() {
+            alert('Payment window closed.');
+        }
+    });
 }
-function closePremium(){hide("premiumModal")}
-function premiumPlan(plan){
-  byId("premiumMessage").textContent=plan+" selected. Secure payment/card connection zai kasance bayan an haɗa payment gateway/backend.";
-}
-document.addEventListener("keydown",e=>{
-  if(e.key==="Escape")closePremium();
-});
 </script>
 </body>
 </html>
