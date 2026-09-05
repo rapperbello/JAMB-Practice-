@@ -153,8 +153,7 @@ button:disabled{opacity:.55;cursor:not-allowed;transform:none}
   </div>
   
   <p class="pricing-footer">Select a plan above to pay via Paystack.</p>
-</div>
-
+  </div> 
 <div id="subjectsPage" class="page hidden">
   <div class="card">
     <h1>📚 Choose 4 Subjects</h1>
@@ -443,21 +442,21 @@ function payWithPaystack(amountInNaira) {
         return;
     }
 
-    let popup = new PaystackPop();
-    popup.newTransaction({
-        key: 'pk_test_0ba0b8b67cc4950baffb4ecae70675d8f1d26d2c', // Saka Public Key dinka na Paystack a nan
+    let handler = PaystackPop.setup({
+        key: 'pk_test_0ba0b8b67cc4950baffb4ecae706798083c2763f',
         email: userEmail,
         amount: amountInNaira * 100,
         currency: 'NGN',
-        onSuccess: function(response) {
+        callback: function(response) {
             alert('Payment successful! Reference ID: ' + response.reference);
             localStorage.setItem('isPremiumUser', 'true');
             location.reload();
         },
-        onCancel: function() {
+        onClose: function() {
             alert('Payment window closed.');
         }
     });
+    handler.openIframe();
 }
 </script>
 </body>
