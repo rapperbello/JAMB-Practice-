@@ -287,13 +287,18 @@ function setDifficulty(level){
   difficulty=level;
   ["Easy","Normal","Difficult"].forEach(x=>byId("diff"+x).classList.toggle("active",x===level));
   byId("difficultyNote").textContent=level+" selected. The exam will prioritize "+level+" questions.";
+ }
+ function openSubjects(){
+    let nameInput = document.getElementById("studentName");
+    if(nameInput && nameInput.value.trim() !== ""){
+        studentName = nameInput.value.trim();
+    } else {
+        studentName = "Candidate";
+    }
+    hide("home");
+    show("subjectsPage");
 }
-function openSubjects(){
-  const n=byId("studentName").value.trim();
-  if(!n){alert("Please enter your name.");return}
-  studentName=n;
-  hide("home");show("subjectsPage");
-}
+
 function startExam(){
   selectedSubjects=[...document.querySelectorAll(".subjectCheck:checked")].map(x=>x.value);
   if(selectedSubjects.length!==4){
